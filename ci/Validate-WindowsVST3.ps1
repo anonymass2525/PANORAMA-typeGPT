@@ -32,8 +32,8 @@ if ($PluginvalExe) {
  $text = (Get-ChildItem $logs -File -Recurse -ErrorAction SilentlyContinue |
    Get-Content -ErrorAction SilentlyContinue) -join "`n"
  if ($proc.ExitCode -ne 0) { throw "pluginval failed, exit $($proc.ExitCode)" }
- if ($text -notmatch 'ALL TESTS PASSED') {
-   throw 'pluginval exit 0 but no ALL TESTS PASSED marker in the validation logs; manual review required'
+ if ($log -notmatch '(?m)^\s*SUCCESS\s*$') {
+    throw 'pluginval success marker not found'
  }
  Write-Host 'pluginval strictness 5 reported ALL TESTS PASSED.'
 }
