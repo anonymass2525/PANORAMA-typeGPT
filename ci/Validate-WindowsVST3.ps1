@@ -31,10 +31,11 @@ if ($PluginvalExe) {
  $proc = Start-Process -FilePath $exe -ArgumentList $args -Wait -PassThru -NoNewWindow
  $text = (Get-ChildItem $logs -File -Recurse -ErrorAction SilentlyContinue |
    Get-Content -ErrorAction SilentlyContinue) -join "`n"
- $logText = @($log) -join "`n"
+ $pluginvalExitCode = $LASTEXITCODE
 
-if (-not ($logText -match '(?m)^\s*SUCCESS\s*$')) {
-    throw 'pluginval success marker not found'
+if ($pluginvalExitCode -ne 0) {
+    throw "pluginval failed with exit code $pluginvalExitCode"
 }
- Write-Host 'pluginval strictness 5 reported ALL TESTS PASSED.'
+
+Write-Host "pluginval completed successfully (exit code 0)."
 }
