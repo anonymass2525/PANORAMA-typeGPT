@@ -31,7 +31,7 @@ if ($PluginvalExe) {
  $proc = Start-Process -FilePath $exe -ArgumentList $args -Wait -PassThru -NoNewWindow
  $text = (Get-ChildItem $logs -File -Recurse -ErrorAction SilentlyContinue |
    Get-Content -ErrorAction SilentlyContinue) -join "`n"
- $pluginvalExitCode = $LASTEXITCODE
+$pluginvalExitCode = $proc.ExitCode
 
 if ($pluginvalExitCode -ne 0) {
     throw "pluginval failed with exit code $pluginvalExitCode"
